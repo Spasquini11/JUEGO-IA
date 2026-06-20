@@ -172,4 +172,46 @@ body {
     line-height: 1;
     cursor: pointer;
   }
+
+  /* Botón terciario (sin contorno), para acciones de menor peso como "Declinar" */
+  .btn-ghost {
+    width: 100%;
+    text-align: center;
+    border-radius: 11px;
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  /* Eyebrow: texto chico en mayúsculas arriba de un título */
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-2);
+    font-weight: 600;
+  }
+
+  /* Tarjeta rosada (se usa para mostrar el tema y el objetivo, y el resumen) */
+  .card {
+    background: var(--blush);
+    border-radius: 14px;
+    padding: 14px 15px;
+  }
+  .card-tema {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 6px;
+  }
+  .card-obj {
+    font-size: 13px;
+    color: var(--ink);
+    opacity: 0.85;
+    line-height: 1.55;
+  }
 }
