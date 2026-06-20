@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entre Nosotros — Bocetos</title>
+<style>
+  :root{
+    --bg:#FBF8F7;
+    --ink:#2A2326;
+    --muted:#8C8085;
+    --burdeos:#641C34;
+    --burdeos-2:#8A3550;
+    --blush:#F6EBEE;
+    --blush-2:#F0DEE4;
+    --line:#EEE8E9;
+    --field:#F4F0F1;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);padding:34px 16px 70px;line-height:1.5;}
+  .head{max-width:430px;margin:0 auto 34px;}
+  .head h1{font-size:21px;margin:0 0 6px;letter-spacing:-.015em;color:var(--burdeos);}
+  .head p{font-size:13px;color:var(--muted);margin:0;}
+
+  .flow{display:flex;flex-direction:column;align-items:center;gap:52px;}
+  .step{width:100%;max-width:430px;}
+  .step-title{font-size:14px;font-weight:600;margin:0 0 14px;color:var(--ink);display:flex;align-items:baseline;gap:9px;}
+  .step-title b{color:var(--burdeos);font-size:13px;border:1.4px solid var(--burdeos);border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+
+  .phone{width:330px;max-width:100%;margin:0 auto;border:1px solid var(--blush-2);border-radius:30px;background:#fff;overflow:hidden;box-shadow:0 14px 40px rgba(100,28,52,.07);}
+  .bar{height:34px;display:flex;align-items:center;justify-content:center;}
+  .bar i{width:42px;height:5px;border-radius:3px;background:var(--blush-2);}
+  .scr{padding:8px 20px 24px;}
+
+  .h{font-size:17px;font-weight:700;margin:6px 0 18px;letter-spacing:-.01em;}
+  .eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--burdeos-2);margin:6px 0 6px;font-weight:600;}
+  .lbl{font-size:12px;font-weight:600;color:var(--muted);margin:18px 0 7px;}
+  .lbl:first-child{margin-top:0;}
+
+  .field{background:var(--field);border-radius:11px;padding:11px 13px;font-size:13px;color:var(--muted);}
+  .field.tall{min-height:54px;}
+  .row{display:flex;gap:8px;}
+  .row .field{flex:1;}
+  .add{font-size:12.5px;color:var(--burdeos);font-weight:600;margin-top:10px;}
+  .mini{font-size:11px;color:var(--muted);margin-top:7px;}
+  .disc{font-size:11px;color:var(--muted);font-style:italic;margin:16px 0 4px;text-align:center;}
+
+  .btn{display:block;width:100%;text-align:center;border-radius:11px;padding:12px;font-size:13px;font-weight:600;margin-top:10px;cursor:default;}
+  .btn.primary{background:var(--burdeos);color:#fff;}
+  .btn.outline{background:#fff;border:1.4px solid var(--burdeos);color:var(--burdeos);}
+  .btn.ghost{background:transparent;color:var(--muted);}
+
+  .card{background:var(--blush);border-radius:14px;padding:14px 15px;}
+  .card .tema{font-size:14px;font-weight:700;color:var(--burdeos);margin-bottom:6px;}
+  .card .obj{font-size:12.5px;color:var(--ink);opacity:.85;line-height:1.55;}
+
+  .msg{max-width:82%;padding:9px 13px;border-radius:15px;font-size:12.5px;margin-bottom:10px;line-height:1.5;}
+  .msg .who{font-size:10px;font-weight:700;color:var(--muted);margin-bottom:3px;letter-spacing:.02em;}
+  .them{background:var(--field);border-top-left-radius:5px;}
+  .me{background:var(--blush);border-top-right-radius:5px;margin-left:auto;}
+  .me .who{text-align:right;color:var(--burdeos-2);}
+
+  .writebar{display:flex;gap:9px;margin-top:14px;align-items:center;}
+  .writebar .field{flex:1;}
+  .coachbtn{font-size:12px;font-weight:700;color:#fff;background:var(--burdeos);border-radius:11px;padding:11px 13px;white-space:nowrap;}
+
+  .coach{margin-top:14px;border:1px solid var(--blush-2);border-radius:14px;background:#fff;padding:14px;}
+  .coach .ct{font-size:11px;font-weight:700;color:var(--burdeos);margin-bottom:11px;letter-spacing:.02em;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{font-size:11.5px;color:var(--burdeos);background:var(--blush);border-radius:16px;padding:6px 11px;}
+  .coach .priv{font-size:10.5px;color:var(--muted);margin-top:11px;}
+
+  .state{background:var(--blush);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.5;}
+  .state b{color:var(--burdeos);}
+  .divider{font-size:11px;font-weight:700;color:var(--muted);margin:20px 0 11px;text-transform:uppercase;letter-spacing:.07em;}
+  .banner{font-size:11px;background:#fff;border:1px solid var(--blush-2);color:var(--burdeos-2);border-radius:9px;padding:9px 11px;margin-top:11px;font-style:italic;}
+
+  .note{margin:15px auto 0;max-width:330px;font-size:12px;color:var(--muted);border-left:2px solid var(--burdeos);padding-left:12px;line-height:1.55;}
+  .note b{color:var(--burdeos);font-weight:600;}
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <h1>Entre Nosotros — bocetos</h1>
+    <p>Boceto para validar estructura y clima. La tipografía y el pulido fino los define el desarrollo; acá importa el flujo, los elementos y el color.</p>
+  </div>
+
+  <div class="flow">
+
+    <!-- 1 -->
+    <div class="step">
+      <p class="step-title"><b>1</b> Crear la conversación</p>
+      <div class="phone">
+        <div class="bar"><i></i></div>
+        <div class="scr">
+          <div class="h">Nueva conversación</div>
+
+          <div class="lbl">Tema</div>
+          <div class="field">Ej.: Nuestra relación con la plata</div>
+
+          <div class="lbl">¿Qué querés lograr?</div>
+          <div class="field tall">Escribí el objetivo en tus palabras…</div>
+          <div class="btn outline">✦ Ayudame a clarificar el objetivo</div>
+          <div class="mini">Opcional · la IA te ayuda a redactarlo</div>
+
+          <div class="lbl">¿A quién invitás?</div>
+          <div class="row"><div class="field">Nombre</div><div class="field">Email</div></div>
+          <div class="add">+ Agregar persona</div>
+          <div class="mini">Entre 2 y 5 personas en total</div>
+
+          <div class="disc">Esto no es terapia ni la reemplaza.</div>
+          <div class="btn primary">Crear e invitar</div>
+        </div>
+      </div>
+      <div class="note"><b>Decisión:</b> solo el creador invita. La IA ayuda a redactar el objetivo, pero el texto final lo decidís vos.</div>
+    </div>
+
+    <!-- 2 -->
+    <div class="step">
+      <p class="step-title"><b>2</b> La invitación (lo que ve quien la recibe)</p>
+      <div class="phone">
+        <div class="bar"><i></i></div>
+        <div class="scr">
+          <div class="eyebrow">Te invitaron</div>
+          <div class="h">Tania te invitó a conversar</div>
+
+          <div class="card">
+            <div class="tema">Nuestra relación con la plata</div>
+            <div class="obj">“Quiero que podamos hablar de cómo manejamos el dinero en casa, sin que termine en pelea.”</div>
+          </div>
+          <div class="mini">Un espacio para tener una charla importante, con calma.</div>
+
+          <div class="lbl">Confirmá tu nombre</div>
+          <div class="field">Tu nombre…</div>
+
+          <div class="btn primary">Aceptar</div>
+          <div class="btn outline">Proponer un ajuste al objetivo</div>
+          <div class="btn ghost">Declinar</div>
+          <div class="mini">Entrás con un link, sin crear contraseña · Solo mayores de 18</div>
+        </div>
+      </div>
+      <div class="note"><b>Decisión:</b> ve el tema y el objetivo <i>antes</i> de entrar. “Declinar” es una opción de primera, no un error.</div>
+    </div>
+
+    <!-- 3 -->
+    <div class="step">
+      <p class="step-title"><b>3</b> La conversación + tu coach privado</p>
+      <div class="phone">
+        <div class="bar"><i></i></div>
+        <div class="scr">
+          <div class="eyebrow">3 personas</div>
+          <div class="h">Nuestra relación con la plata</div>
+
+          <div class="msg them"><div class="who">Tania</div>Para mí lo más difícil es que nunca sé cuánto nos queda a fin de mes.</div>
+          <div class="msg me"><div class="who">Vos</div>Te entiendo. A mí me pasa que evito mirar la cuenta…</div>
+          <div class="msg them"><div class="who">Mamá</div>Yo crecí sin nada, por eso me cuesta gastar.</div>
+
+          <div class="writebar">
+            <div class="field">Escribí tu mensaje…</div>
+            <span class="coachbtn">🔒 Coach</span>
+          </div>
+
+          <div class="coach">
+            <div class="ct">🔒 Coach privado — solo vos</div>
+            <div class="chips">
+              <span class="chip">Ayudame a responder</span>
+              <span class="chip">Suavizar</span>
+              <span class="chip">Más directo</span>
+              <span class="chip">Profundizar</span>
+              <span class="chip">Entender al otro</span>
+              <span class="chip">Ver temas sin explorar</span>
+            </div>
+            <div class="priv">Solo vos ves esto. No se marca en la conversación.</div>
+          </div>
+        </div>
+      </div>
+      <div class="note"><b>Decisión:</b> el coach es de cada persona y es invisible para el resto. Lee el hilo para ayudarte, pero sin “visto” ni “escribiendo”.</div>
+    </div>
+
+    <!-- 4 -->
+    <div class="step">
+      <p class="step-title"><b>4</b> Cerrar y resumen</p>
+      <div class="phone">
+        <div class="bar"><i></i></div>
+        <div class="scr">
+          <div class="h">Cerrar la conversación</div>
+
+          <div class="state"><b>Tania propuso cerrar.</b> Esperando que confirmen los demás.</div>
+          <div class="mini">Si nadie objeta, se cierra sola en 7 días.</div>
+          <div class="btn primary">Confirmar cierre</div>
+          <div class="btn outline">Seguir conversando</div>
+
+          <div class="divider">Cuando se cierra</div>
+          <div class="card">
+            <div class="tema">Resumen (opcional)</div>
+            <div class="obj">· De qué se habló<br>· Qué quedó pendiente<br>· Qué planteó cada persona</div>
+            <div class="banner">Borrador. Puede tener errores. Revisalo antes de compartir.</div>
+          </div>
+          <div class="btn primary">Compartir resumen</div>
+          <div class="btn ghost">Descartar</div>
+        </div>
+      </div>
+      <div class="note"><b>Decisión:</b> el resumen <b>describe</b> lo que se dijo; no interpreta ni saca conclusiones. Es un borrador que una persona aprueba antes de compartir.</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
