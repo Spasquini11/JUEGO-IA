@@ -217,18 +217,12 @@ body {
 
   /* --- Pantalla 3: hilo de mensajes --- */
   .msg {
-    max-width: 82%;
+    width: fit-content;
+    max-width: 100%;
     padding: 9px 13px;
     border-radius: 15px;
     font-size: 13px;
     line-height: 1.5;
-  }
-  .msg-who {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--muted);
-    margin-bottom: 3px;
-    letter-spacing: 0.02em;
   }
   .msg-them {
     background: var(--field);
@@ -237,11 +231,14 @@ body {
   .msg-me {
     background: var(--blush);
     border-top-right-radius: 5px;
-    margin-left: auto;
   }
-  .msg-me .msg-who {
-    text-align: right;
-    color: var(--brand-2);
+  .msg-who {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
   }
 
   /* --- Pantalla 3: barra para escribir --- */

@@ -28,8 +28,7 @@ frena el trabajo de ahora; es una lista para no perdernos nada.
 - **Home "Tus conversaciones"**: lista de conversaciones activas/cerradas + algo lindo.
   *(Hecho en este paso, a validar.)*
 - **Diferenciador por persona en la conversación**: avatar con iniciales y color propio
-  de cada uno, para ver de un vistazo quién habla. *(Componente Avatar ya creado; falta
-  aplicarlo a la pantalla de conversación.)*
+  de cada uno, para ver de un vistazo quién habla. *(Hecho.)*
 - **Armonizar** las pantallas ya hechas (1 "crear", 2 "invitación", 4 "cerrar") con el
   nuevo lenguaje visual.
 
