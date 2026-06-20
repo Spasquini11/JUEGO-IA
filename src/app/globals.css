@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Sistema de diseño de "Entre Nosotros".
+  Los colores salen del boceto (bocetos.html). Modo claro y oscuro automáticos.
+  Cada color es una variable que cambia de valor según el modo; Tailwind las expone
+  como utilidades (ej.: text-brand, bg-blush) gracias a "@theme inline".
+*/
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  /* Superficies */
+  --bg: #fbf8f7;        /* fondo general, claro y cálido */
+  --surface: #ffffff;   /* tarjetas y paneles */
+  --field: #f4f0f1;     /* fondo de los campos de texto */
+  --line: #eee8e9;      /* líneas y bordes suaves */
+
+  /* Texto */
+  --ink: #2a2326;       /* texto principal */
+  --muted: #8c8085;     /* texto secundario */
+
+  /* Marca (burdeos) y rosados */
+  --brand: #641c34;     /* acento principal: títulos, links, bordes */
+  --brand-2: #8a3550;   /* acento secundario */
+  --blush: #f6ebee;     /* rosado tenue: tarjetas y burbujas */
+  --blush-2: #f0dee4;   /* rosado un poco más fuerte: bordes */
+
+  /* Botón principal */
+  --accent: #641c34;    /* fondo del botón principal */
+  --on-accent: #ffffff; /* texto sobre el botón principal */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #1a1215;
+    --surface: #221a1d;
+    --field: #2a1f23;
+    --line: #352a2f;
+
+    --ink: #f2eaec;
+    --muted: #ac9ea4;
+
+    --brand: #eba9bc;
+    --brand-2: #d98aa8;
+    --blush: #2e2125;
+    --blush-2: #3a2a30;
+
+    --accent: #e59fb3;
+    --on-accent: #2a1216;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-field: var(--field);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-blush: var(--blush);
+  --color-blush-2: var(--blush-2);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+/* Foco visible para quien navega con teclado */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Respeta "reducir movimiento": casi sin animaciones para quien las desactivó */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Piezas reutilizables de interfaz (campos, botones, notas) */
+@layer components {
+  .campo-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+
+  .campo {
+    width: 100%;
+    background: var(--field);
+    border: 1px solid transparent;
+    border-radius: 11px;
+    padding: 11px 13px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .campo::placeholder {
+    color: var(--muted);
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+    border-radius: 11px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--on-accent);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .btn-primary:hover {
+    opacity: 0.92;
+  }
+
+  .btn-outline {
+    width: 100%;
+    text-align: center;
+    border-radius: 11px;
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    background: var(--surface);
+    border: 1.4px solid var(--brand);
+    color: var(--brand);
+    cursor: pointer;
+  }
+
+  .nota {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 7px;
+  }
+
+  .agregar {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--brand);
+    margin-top: 10px;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+  }
+
+  .quitar {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+  }
 }

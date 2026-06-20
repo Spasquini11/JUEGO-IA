@@ -1,65 +1,131 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+/*
+  Pantalla 1 del boceto: "Crear la conversación".
+  Por ahora es ESTÁTICA: el formulario todavía no guarda nada en base de datos
+  y los botones de IA / crear aún no hacen nada. Lo único que ya funciona es
+  agregar y quitar personas a invitar, para que la pantalla se pueda probar.
+*/
+
+type Invitado = { id: number; nombre: string; email: string };
+
+const MAX_INVITADOS = 4; // 1 a 4 invitados → entre 2 y 5 personas en total
+
+export default function CrearConversacionPage() {
+  const [invitados, setInvitados] = useState<Invitado[]>([
+    { id: 1, nombre: "", email: "" },
+  ]);
+
+  function agregarPersona() {
+    setInvitados((prev) =>
+      prev.length >= MAX_INVITADOS
+        ? prev
+        : [...prev, { id: Date.now(), nombre: "", email: "" }],
+    );
+  }
+
+  function quitarPersona(id: number) {
+    setInvitados((prev) =>
+      prev.length <= 1 ? prev : prev.filter((p) => p.id !== id),
+    );
+  }
+
+  function actualizar(id: number, campo: "nombre" | "email", valor: string) {
+    setInvitados((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, [campo]: valor } : p)),
+    );
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="mx-auto w-full max-w-[460px] px-5 py-8 sm:py-12">
+      <h1 className="text-2xl font-bold tracking-tight text-brand">
+        Nueva conversación
+      </h1>
+
+      <form className="mt-7" onSubmit={(e) => e.preventDefault()}>
+        {/* Tema */}
+        <label htmlFor="tema" className="campo-label">
+          Tema
+        </label>
+        <input
+          id="tema"
+          type="text"
+          className="campo"
+          placeholder="Ej.: Nuestra relación con la plata"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* Objetivo */}
+        <label htmlFor="objetivo" className="campo-label mt-5">
+          ¿Qué querés lograr?
+        </label>
+        <textarea
+          id="objetivo"
+          rows={4}
+          className="campo resize-y"
+          placeholder="Escribí el objetivo en tus palabras…"
+        />
+        <button type="button" className="btn-outline mt-3">
+          ✦ Ayudame a clarificar el objetivo
+        </button>
+        <p className="nota">Opcional · la IA te ayuda a redactarlo</p>
+
+        {/* A quién invita */}
+        <fieldset className="mt-6 border-0 p-0">
+          <legend className="campo-label">¿A quién invitás?</legend>
+
+          <div className="flex flex-col gap-2">
+            {invitados.map((inv, i) => (
+              <div key={inv.id} className="flex items-center gap-2">
+                <input
+                  type="text"
+                  className="campo flex-1"
+                  placeholder="Nombre"
+                  aria-label={`Nombre de la persona ${i + 1}`}
+                  value={inv.nombre}
+                  onChange={(e) => actualizar(inv.id, "nombre", e.target.value)}
+                />
+                <input
+                  type="email"
+                  className="campo flex-1"
+                  placeholder="Email"
+                  aria-label={`Email de la persona ${i + 1}`}
+                  value={inv.email}
+                  onChange={(e) => actualizar(inv.id, "email", e.target.value)}
+                />
+                {invitados.length > 1 && (
+                  <button
+                    type="button"
+                    className="quitar"
+                    aria-label={`Quitar persona ${i + 1}`}
+                    onClick={() => quitarPersona(inv.id)}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {invitados.length < MAX_INVITADOS && (
+            <button type="button" className="agregar" onClick={agregarPersona}>
+              + Agregar persona
+            </button>
+          )}
+          <p className="nota">Entre 2 y 5 personas en total</p>
+        </fieldset>
+
+        {/* Disclaimer */}
+        <p className="mt-6 text-center text-[12px] italic text-muted">
+          Esto no es terapia ni la reemplaza.
+        </p>
+
+        {/* Acción principal */}
+        <button type="submit" className="btn-primary mt-2">
+          Crear e invitar
+        </button>
+      </form>
+    </main>
   );
 }

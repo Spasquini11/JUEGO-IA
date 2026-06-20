@@ -43,6 +43,9 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - Dependencias instaladas.
 - Secretos protegidos: `.gitignore` reforzado + `.env.example`.
 - Git local iniciado.
+- **F1 (parte visual):** base de diseño (colores burdeos/rosado, modo claro/oscuro,
+  tipografía) + **Pantalla 1 "Nueva conversación"** del boceto, estática y accesible.
+  Ya se puede agregar/quitar personas a invitar (1 a 4). Todavía no guarda en base.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -51,6 +54,7 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-**F1 — Crear sesión:** armar la base visual (colores burdeos/rosado, modo claro/oscuro,
-tipografía) y la **Pantalla 1 "Crear conversación"** del `BOCETOS.md`, todavía estática
-(sin guardar en base de datos). Primero la pantalla; la base de datos viene después.
+Seguir con la **Pantalla 2 "La invitación"** (lo que ve quien recibe el link),
+también estática. La idea es dejar las 4 pantallas visibles y probables primero, y
+recién después conectar la base de datos y los emails (eso va a requerir que Santiago
+cree un par de cuentas gratuitas; le avisaré cuando toque).
