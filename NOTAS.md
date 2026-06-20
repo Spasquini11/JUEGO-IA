@@ -60,6 +60,8 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   Pantalla 1 "Crear" se movió a `/crear`. Componente `Avatar` reutilizable creado.
 - **Conversación con identidad por persona:** cada mensaje de otra persona muestra su
   avatar (color + iniciales) y los propios van a la derecha. Se sumó "‹ Volver".
+- **Pantalla de bienvenida** (F11) en `/bienvenida`: qué es, consentimiento en simple
+  (sacado de `PRIVACIDAD.md`), aviso de emergencia y botón "Entiendo y quiero entrar".
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -68,10 +70,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Rumbo visual ya **validado** por Santiago. Quedan, en este orden sugerido:
-1. **Pantalla de bienvenida/carga** antes del Home (con botón para entrar) — junta F11.
-2. **Pantalla 4 "Cerrar y resumen"** (todavía falta hacerla), con el nuevo lenguaje.
-3. **Armonizar** las pantallas 1 "crear" y 2 "invitación" con el nuevo lenguaje.
-
-Después de eso: conectar base de datos y emails (ahí Santiago crea un par de cuentas
-gratis; le avisaré). Lista completa en `IDEAS.md`.
+- **Repo privado en GitHub** (Santiago quiere trabajar desde el celu): necesita una
+  acción suya (cuenta de GitHub + autorizar el primer push). Cuando pase la URL del
+  repo, Claude lo conecta y sube todo. `gh` no está instalado; vamos por la web.
+- **Pantalla 4 "Cerrar y resumen"** con el nuevo lenguaje (todavía falta).
+- **Armonizar** las pantallas 1 "crear" y 2 "invitación" con el nuevo lenguaje.
+- Después: **conectar base de datos + login + el coach con IA** (el corazón del
+  producto). Ahí Santiago crea las cuentas gratuitas. Lista completa en `IDEAS.md`.

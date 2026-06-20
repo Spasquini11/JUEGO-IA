@@ -24,7 +24,8 @@ frena el trabajo de ahora; es una lista para no perdernos nada.
 ## Pendientes acordados (próximos pasos)
 
 - **Pantalla de bienvenida / carga** antes del Home, con un botón para entrar (junta la
-  F11 "bienvenida/consentimiento" con la pantalla donde carga la app).
+  F11 "bienvenida/consentimiento" con la pantalla donde carga la app). *(Hecho — vive
+  en `/bienvenida`; cuando haya login, será la puerta automática antes del Home.)*
 - **Home "Tus conversaciones"**: lista de conversaciones activas/cerradas + algo lindo.
   *(Hecho en este paso, a validar.)*
 - **Diferenciador por persona en la conversación**: avatar con iniciales y color propio
