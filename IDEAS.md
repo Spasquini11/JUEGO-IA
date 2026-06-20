@@ -15,6 +15,24 @@ frena el trabajo de ahora; es una lista para no perdernos nada.
   que lo ven los demás. No hay "nombre de cuenta" aparte: la identidad es el email (link
   mágico). En la base de datos es un solo campo de texto, sin complicación.
 
+- **(19/06/2026) Dirección visual "siglo 21".** La paleta burdeos/rosado es sobre todo
+  para el **logo y la marca**; en la interfaz el burdeos se usa como **acento** (botón
+  principal, detalles, títulos puntuales) sobre una base más neutra y limpia. Sumamos
+  tipografía moderna (Inter), tarjetas con aire y profundidad sutil, y **un color por
+  persona** (avatares) para identificar a cada quien de un vistazo.
+
+## Pendientes acordados (próximos pasos)
+
+- **Pantalla de bienvenida / carga** antes del Home, con un botón para entrar (junta la
+  F11 "bienvenida/consentimiento" con la pantalla donde carga la app).
+- **Home "Tus conversaciones"**: lista de conversaciones activas/cerradas + algo lindo.
+  *(Hecho en este paso, a validar.)*
+- **Diferenciador por persona en la conversación**: avatar con iniciales y color propio
+  de cada uno, para ver de un vistazo quién habla. *(Componente Avatar ya creado; falta
+  aplicarlo a la pantalla de conversación.)*
+- **Armonizar** las pantallas ya hechas (1 "crear", 2 "invitación", 4 "cerrar") con el
+  nuevo lenguaje visual.
+
 ## Ideas y mejoras para revisar más adelante
 
 - (vacío por ahora — se va llenando)

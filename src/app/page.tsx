@@ -1,131 +1,165 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
+import Avatar from "@/components/Avatar";
 
 /*
-  Pantalla 1 del boceto: "Crear la conversación".
-  Por ahora es ESTÁTICA: el formulario todavía no guarda nada en base de datos
-  y los botones de IA / crear aún no hacen nada. Lo único que ya funciona es
-  agregar y quitar personas a invitar, para que la pantalla se pueda probar.
+  Home: "Tus conversaciones".
+  Es la pantalla principal de la app: muestra las conversaciones que tenés
+  (activas y cerradas) y el botón para crear una nueva.
+  Por ahora los datos son de ejemplo (todavía sin base de datos).
 */
 
-type Invitado = { id: number; nombre: string; email: string };
+type Estado = "activa" | "cerrada";
 
-const MAX_INVITADOS = 4; // 1 a 4 invitados → entre 2 y 5 personas en total
+type Conversacion = {
+  id: string;
+  tema: string;
+  estado: Estado;
+  cuando: string;
+  personas: string[];
+  novedad?: boolean;
+};
 
-export default function CrearConversacionPage() {
-  const [invitados, setInvitados] = useState<Invitado[]>([
-    { id: 1, nombre: "", email: "" },
-  ]);
+const CONVERSACIONES: Conversacion[] = [
+  {
+    id: "1",
+    tema: "Nuestra relación con la plata",
+    estado: "activa",
+    cuando: "hace 2 días",
+    personas: ["Tania", "Vos", "Mamá"],
+    novedad: true,
+  },
+  {
+    id: "2",
+    tema: "Cómo nos repartimos las cosas de la casa",
+    estado: "activa",
+    cuando: "hace 1 semana",
+    personas: ["Javier", "Vos"],
+  },
+  {
+    id: "3",
+    tema: "La herencia de la abuela",
+    estado: "cerrada",
+    cuando: "en marzo",
+    personas: ["Vos", "Lucía", "Mamá", "Tío Beto"],
+  },
+];
 
-  function agregarPersona() {
-    setInvitados((prev) =>
-      prev.length >= MAX_INVITADOS
-        ? prev
-        : [...prev, { id: Date.now(), nombre: "", email: "" }],
-    );
-  }
+function TarjetaConversacion({ c }: { c: Conversacion }) {
+  return (
+    <Link
+      href="/conversacion"
+      aria-label={`Conversación: ${c.tema}. ${
+        c.estado === "activa" ? "Activa" : "Cerrada"
+      }. Con ${c.personas.join(", ")}.`}
+      className="group block rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_12px_rgba(100,28,52,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(100,28,52,0.10)]"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="font-semibold leading-snug text-ink">{c.tema}</h3>
+        {c.novedad && (
+          <span className="mt-0.5 shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-on-accent">
+            Nuevo
+          </span>
+        )}
+      </div>
 
-  function quitarPersona(id: number) {
-    setInvitados((prev) =>
-      prev.length <= 1 ? prev : prev.filter((p) => p.id !== id),
-    );
-  }
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <div className="flex -space-x-2" aria-hidden="true">
+          {c.personas.map((p) => (
+            <Avatar key={p} nombre={p} />
+          ))}
+        </div>
+        <span className="flex shrink-0 items-center gap-2 text-[11px] text-muted">
+          <span
+            className={
+              c.estado === "activa"
+                ? "rounded-full bg-blush px-2 py-0.5 font-semibold text-brand"
+                : "rounded-full bg-field px-2 py-0.5 font-semibold text-muted"
+            }
+          >
+            {c.estado === "activa" ? "Activa" : "Cerrada"}
+          </span>
+          {c.cuando}
+        </span>
+      </div>
+    </Link>
+  );
+}
 
-  function actualizar(id: number, campo: "nombre" | "email", valor: string) {
-    setInvitados((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, [campo]: valor } : p)),
-    );
-  }
+export default function HomePage() {
+  const activas = CONVERSACIONES.filter((c) => c.estado === "activa");
+  const cerradas = CONVERSACIONES.filter((c) => c.estado === "cerrada");
+  const vacio = CONVERSACIONES.length === 0;
 
   return (
-    <main className="mx-auto w-full max-w-[460px] px-5 py-8 sm:py-12">
-      <h1 className="text-2xl font-bold tracking-tight text-brand">
-        Nueva conversación
-      </h1>
+    <main className="mx-auto w-full max-w-[560px] px-5 py-8 sm:py-12">
+      {/* Marca (provisoria, como texto hasta tener logo) */}
+      <p className="text-sm font-semibold tracking-tight">
+        <span className="text-brand">Entre</span>{" "}
+        <span className="text-ink">Nosotros</span>
+      </p>
 
-      <form className="mt-7" onSubmit={(e) => e.preventDefault()}>
-        {/* Tema */}
-        <label htmlFor="tema" className="campo-label">
-          Tema
-        </label>
-        <input
-          id="tema"
-          type="text"
-          className="campo"
-          placeholder="Ej.: Nuestra relación con la plata"
-        />
+      {/* Encabezado + acción principal */}
+      <div className="mt-6 flex items-end justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-ink">
+            Tus conversaciones
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Las charlas importantes, en un solo lugar.
+          </p>
+        </div>
+        <Link
+          href="/crear"
+          className="shrink-0 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-on-accent shadow-[0_2px_10px_rgba(100,28,52,0.18)] transition hover:opacity-90"
+        >
+          + Nueva
+        </Link>
+      </div>
 
-        {/* Objetivo */}
-        <label htmlFor="objetivo" className="campo-label mt-5">
-          ¿Qué querés lograr?
-        </label>
-        <textarea
-          id="objetivo"
-          rows={4}
-          className="campo resize-y"
-          placeholder="Escribí el objetivo en tus palabras…"
-        />
-        <button type="button" className="btn-outline mt-3">
-          ✦ Ayudame a clarificar el objetivo
-        </button>
-        <p className="nota">Opcional · la IA te ayuda a redactarlo</p>
-
-        {/* A quién invita */}
-        <fieldset className="mt-6 border-0 p-0">
-          <legend className="campo-label">¿A quién invitás?</legend>
-
-          <div className="flex flex-col gap-2">
-            {invitados.map((inv, i) => (
-              <div key={inv.id} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  className="campo flex-1"
-                  placeholder="Nombre"
-                  aria-label={`Nombre de la persona ${i + 1}`}
-                  value={inv.nombre}
-                  onChange={(e) => actualizar(inv.id, "nombre", e.target.value)}
-                />
-                <input
-                  type="email"
-                  className="campo flex-1"
-                  placeholder="Email"
-                  aria-label={`Email de la persona ${i + 1}`}
-                  value={inv.email}
-                  onChange={(e) => actualizar(inv.id, "email", e.target.value)}
-                />
-                {invitados.length > 1 && (
-                  <button
-                    type="button"
-                    className="quitar"
-                    aria-label={`Quitar persona ${i + 1}`}
-                    onClick={() => quitarPersona(inv.id)}
-                  >
-                    ×
-                  </button>
-                )}
+      {vacio ? (
+        <div className="mt-12 rounded-2xl border border-dashed border-blush-2 bg-surface p-8 text-center">
+          <p className="text-base font-semibold text-ink">
+            Todavía no tenés conversaciones
+          </p>
+          <p className="mx-auto mt-2 max-w-xs text-sm text-muted">
+            Cuando quieras tener una charla importante con calma, empezás acá.
+          </p>
+          <Link
+            href="/crear"
+            className="mt-5 inline-block rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-on-accent"
+          >
+            Crear la primera
+          </Link>
+        </div>
+      ) : (
+        <div className="mt-8 flex flex-col gap-7">
+          {activas.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted">
+                Activas
+              </h2>
+              <div className="flex flex-col gap-3">
+                {activas.map((c) => (
+                  <TarjetaConversacion key={c.id} c={c} />
+                ))}
               </div>
-            ))}
-          </div>
-
-          {invitados.length < MAX_INVITADOS && (
-            <button type="button" className="agregar" onClick={agregarPersona}>
-              + Agregar persona
-            </button>
+            </section>
           )}
-          <p className="nota">Entre 2 y 5 personas en total</p>
-        </fieldset>
 
-        {/* Disclaimer */}
-        <p className="mt-6 text-center text-[12px] italic text-muted">
-          Esto no es terapia ni la reemplaza.
-        </p>
-
-        {/* Acción principal */}
-        <button type="submit" className="btn-primary mt-2">
-          Crear e invitar
-        </button>
-      </form>
+          {cerradas.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted">
+                Cerradas
+              </h2>
+              <div className="flex flex-col gap-3">
+                {cerradas.map((c) => (
+                  <TarjetaConversacion key={c.id} c={c} />
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
     </main>
   );
 }

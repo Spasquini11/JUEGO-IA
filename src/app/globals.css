@@ -63,8 +63,8 @@
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {

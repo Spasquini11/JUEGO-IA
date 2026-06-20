@@ -54,6 +54,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - **Pantalla 3 "La conversación + el coach"** (estática): hilo de mensajes de ejemplo
   en burbujas, barra para escribir y el **panel del coach privado** que se abre y
   cierra con el botón "🔒 Coach". Vive en `/conversacion`.
+- **Nuevo rumbo visual + Home:** tipografía moderna (Inter), el burdeos como acento
+  sobre base más neutra, y el **Home "Tus conversaciones"** en `/` (tarjetas con
+  avatares de color por persona, estado activa/cerrada y aviso de novedad). La
+  Pantalla 1 "Crear" se movió a `/crear`. Componente `Avatar` reutilizable creado.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -62,7 +66,11 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Seguir con la **Pantalla 4 "Cerrar y resumen"**, también estática. Con eso quedan las
-4 pantallas del boceto visibles y probables. Recién después conectamos la base de datos
-y los emails (eso va a requerir que Santiago cree un par de cuentas gratuitas; le
-avisaré cuando toque).
+Santiago está **validando el nuevo rumbo visual** (Home). Si le gusta, sigue así:
+1. Pantalla de bienvenida/carga antes del Home (con botón para entrar).
+2. Aplicar los avatares / color por persona a la pantalla de conversación.
+3. Armonizar las pantallas 1 "crear", 2 "invitación" y 4 "cerrar" con el nuevo lenguaje.
+4. Hacer la **Pantalla 4 "Cerrar y resumen"** (todavía falta).
+
+Después de eso: conectar base de datos y emails (ahí Santiago crea un par de cuentas
+gratis; le avisaré). Lista completa en `IDEAS.md`.
