@@ -62,6 +62,8 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   avatar (color + iniciales) y los propios van a la derecha. Se sumó "‹ Volver".
 - **Pantalla de bienvenida** (F11) en `/bienvenida`: qué es, consentimiento en simple
   (sacado de `PRIVACIDAD.md`), aviso de emergencia y botón "Entiendo y quiero entrar".
+- **Pantalla 4 "Cerrar y resumen"** en `/cerrar`: estado "propuso cerrar" → al
+  confirmar aparece el resumen (borrador, descriptivo–no-interpretativo) con su aviso.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -70,10 +72,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-- **Repo privado en GitHub** (Santiago quiere trabajar desde el celu): necesita una
-  acción suya (cuenta de GitHub + autorizar el primer push). Cuando pase la URL del
-  repo, Claude lo conecta y sube todo. `gh` no está instalado; vamos por la web.
-- **Pantalla 4 "Cerrar y resumen"** con el nuevo lenguaje (todavía falta).
-- **Armonizar** las pantallas 1 "crear" y 2 "invitación" con el nuevo lenguaje.
+- **Repo privado en GitHub**: remoto ya conectado (origin = `Spasquini11/JUEGO-IA`).
+  El primer push espera a que Santiago complete el login del navegador; después se
+  vuelve a pushear para sincronizar todo.
+- **Armonizar** las pantallas 1 "crear" y 2 "invitación" con el nuevo lenguaje (último
+  retoque visual antes de la parte de atrás).
 - Después: **conectar base de datos + login + el coach con IA** (el corazón del
   producto). Ahí Santiago crea las cuentas gratuitas. Lista completa en `IDEAS.md`.
