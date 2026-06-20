@@ -214,4 +214,88 @@ body {
     opacity: 0.85;
     line-height: 1.55;
   }
+
+  /* --- Pantalla 3: hilo de mensajes --- */
+  .msg {
+    max-width: 82%;
+    padding: 9px 13px;
+    border-radius: 15px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .msg-who {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 3px;
+    letter-spacing: 0.02em;
+  }
+  .msg-them {
+    background: var(--field);
+    border-top-left-radius: 5px;
+  }
+  .msg-me {
+    background: var(--blush);
+    border-top-right-radius: 5px;
+    margin-left: auto;
+  }
+  .msg-me .msg-who {
+    text-align: right;
+    color: var(--brand-2);
+  }
+
+  /* --- Pantalla 3: barra para escribir --- */
+  .writebar {
+    display: flex;
+    gap: 9px;
+    align-items: center;
+  }
+  .writebar .campo {
+    flex: 1;
+  }
+  .coach-btn {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--on-accent);
+    background: var(--accent);
+    border: none;
+    border-radius: 11px;
+    padding: 11px 13px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  /* --- Pantalla 3: panel del coach privado --- */
+  .coach {
+    border: 1px solid var(--blush-2);
+    border-radius: 14px;
+    background: var(--surface);
+    padding: 14px;
+  }
+  .coach-ct {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 11px;
+    letter-spacing: 0.02em;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .chip {
+    font-size: 11.5px;
+    color: var(--brand);
+    background: var(--blush);
+    border: none;
+    border-radius: 16px;
+    padding: 6px 11px;
+    cursor: pointer;
+  }
+  .coach-priv {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 11px;
+  }
 }

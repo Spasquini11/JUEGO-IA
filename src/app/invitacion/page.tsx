@@ -32,8 +32,12 @@ export default function InvitacionPage() {
         id="nombre"
         type="text"
         className="campo"
+        defaultValue="Lucía"
         placeholder="Tu nombre…"
       />
+      <p className="nota">
+        Es el nombre con el que te van a ver los demás. Si no te llamás así, cambialo.
+      </p>
 
       <div className="mt-5 flex flex-col gap-2.5">
         <button type="button" className="btn-primary">

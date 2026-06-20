@@ -26,6 +26,7 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - `src/` → el código (componentes, lógica) va adentro de acá.
 - `public/` → imágenes y archivos estáticos.
 - `*.md` y `bocetos.html` → los documentos del proyecto (PRD, bocetos, privacidad, guía).
+- `IDEAS.md` → mejoras, ideas y dudas para más adelante (no frena el trabajo de ahora).
 - `.env.local` → acá van los secretos (todavía **no existe**; lo creamos al conectar cuentas). **Nunca** se sube.
 - `.env.example` → plantilla sin secretos que sí se versiona, para saber qué claves hacen falta.
 
@@ -48,7 +49,11 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   Ya se puede agregar/quitar personas a invitar (1 a 4). Todavía no guarda en base.
 - **Pantalla 2 "La invitación"** (estática): lo que ve quien recibe el link —
   tema + objetivo, confirmar nombre, y aceptar / proponer ajuste / declinar.
-  Vive en la dirección `/invitacion` (datos de ejemplo por ahora).
+  Vive en la dirección `/invitacion` (datos de ejemplo por ahora). El campo del
+  nombre viene precargado con el que puso quien invita (ver `IDEAS.md`).
+- **Pantalla 3 "La conversación + el coach"** (estática): hilo de mensajes de ejemplo
+  en burbujas, barra para escribir y el **panel del coach privado** que se abre y
+  cierra con el botón "🔒 Coach". Vive en `/conversacion`.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -57,7 +62,7 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Seguir con la **Pantalla 3 "La conversación + el coach privado"**, también estática.
-La idea es dejar las 4 pantallas visibles y probables primero, y recién después
-conectar la base de datos y los emails (eso va a requerir que Santiago cree un par de
-cuentas gratuitas; le avisaré cuando toque).
+Seguir con la **Pantalla 4 "Cerrar y resumen"**, también estática. Con eso quedan las
+4 pantallas del boceto visibles y probables. Recién después conectamos la base de datos
+y los emails (eso va a requerir que Santiago cree un par de cuentas gratuitas; le
+avisaré cuando toque).
