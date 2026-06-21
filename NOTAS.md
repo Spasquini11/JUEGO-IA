@@ -65,6 +65,9 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   (sacado de `PRIVACIDAD.md`), aviso de emergencia y botón "Entiendo y quiero entrar".
 - **Pantalla 4 "Cerrar y resumen"** en `/cerrar`: estado "propuso cerrar" → al
   confirmar aparece el resumen (borrador, descriptivo–no-interpretativo) con su aviso.
+- **Épica 1 — Base de datos (Supabase):** 6 tablas + reglas de privacidad (RLS) creadas;
+  la app se conecta OK (chequeo `/api/db-check` devolvió ok, 0 sesiones). El esquema vive
+  en `supabase/migrations/0001_init.sql`; las claves, solo en `.env.local` (no se suben).
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -73,6 +76,7 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-GitHub ya conectado y sincronizado. Armamos un plan de épicas en `ROADMAP.md` y las
-hacemos de a una. **Próxima: Épica 1 — Base de datos (Supabase).** Necesita que Santiago
-cree una cuenta gratis en Supabase; después Claude conecta la base y arma el modelo de datos.
+Épica 1 (base de datos) lista y verificada. **Próxima: Épica 2 — Login por link mágico**
+(entrar sin contraseña, solo con el email). Quizás haya que ajustar algo de auth en el
+panel de Supabase (le aviso a Santiago si toca). El esquema SQL irá evolucionando con
+migraciones nuevas (`0002_`, `0003_`…) a medida que cada épica lo necesite.

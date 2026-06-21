@@ -35,7 +35,17 @@ frena el trabajo de ahora; es una lista para no perdernos nada.
 
 ## Ideas y mejoras para revisar más adelante
 
-- (vacío por ahora — se va llenando)
+Propuestas de producto/UX para evaluar (no son del paso actual; respetan el alcance del MVP):
+
+- **Autoguardado de borradores:** que no se pierda lo que estás escribiendo (mensaje u
+  objetivo) si cerrás sin querer.
+- **Resumen editable antes de compartir:** quien lo aprueba puede ajustar el texto del
+  borrador (sigue siendo descriptivo) antes de mandarlo.
+- **Señal sutil de "tenés algo nuevo"** por sesión, sin presión (nada de "visto").
+- **Identidad de marca real:** un logo simple en vez del wordmark de texto de hoy.
+- **Confirmaciones cálidas y reversibles:** al declinar o cerrar, un "deshacer" breve por
+  si fue sin querer.
+- **Accesibilidad extra:** control de tamaño de texto / alto contraste opcional.
 
 ## Dudas abiertas
 

@@ -20,9 +20,9 @@ Santiago cree una cuenta o haga una acción con sus manos.
 
 ## Fase 1 — Cimientos (que sea una app de verdad)
 
-1. [ ] 🔑 **Base de datos (Supabase):** modelo de datos (usuarios, sesiones, participantes,
+1. [x] 🔑 **Base de datos (Supabase):** modelo de datos (usuarios, sesiones, participantes,
    invitaciones, mensajes, resúmenes) + reglas de acceso (cada quien ve solo lo suyo).
-2. [ ] 🔑 **Login por link mágico:** entrar sin contraseña, solo con el email.
+2. [~] 🔑 **Login por link mágico:** entrar sin contraseña, solo con el email.
 3. [ ] **F1 real — crear sesión:** guardar en base (tema, objetivo, invitados; máx. 5
    personas y 20 sesiones activas). *(La ayuda de IA para el objetivo llega en la épica 6.)*
 4. [ ] 🔑 **F2 real — invitaciones por email (Resend):** link mágico al invitado; aceptar /
