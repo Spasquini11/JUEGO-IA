@@ -81,10 +81,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 3 lista y verificada. **Próxima: Épica 4 — Invitaciones por email (Resend).**
-Necesita que Santiago cree una cuenta gratis en Resend. Nota: sin dominio propio verificado,
-Resend solo deja enviar al email de la cuenta (alcanza para probar con el mail de Santiago);
-para invitar a terceros más adelante hay que verificar un dominio.
+Épica 4 (invitaciones) **núcleo construido**: al crear una sesión se mandan los emails de
+invitación (Resend); `/invitacion/[token]` muestra la invitación real y permite **aceptar**
+(la sesión pasa a activa) o **declinar**. Falta que Santiago lo **pruebe de punta a punta**
+(invitándose a su propio email) y, después, sumar **proponer un ajuste** y **reinvitación**.
 
-Pendiente visual (anotado en IDEAS): pasada dedicada a la paleta/look (Santiago la explica).
-El esquema SQL irá evolucionando con migraciones nuevas (`0002_`, …) según cada épica.
+Recordatorio: sin dominio verificado, Resend solo entrega al email de la cuenta de Santiago.
+Pendiente visual (IDEAS): pasada dedicada a la paleta. El SQL evoluciona con migraciones.

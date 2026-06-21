@@ -3,6 +3,7 @@
 import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { enviarInvitacion } from "@/lib/email";
 
 /*
   Acción de servidor para crear una sesión (Épica 3, F1 real).
@@ -96,13 +97,26 @@ export async function crearSesion(
     if (errPart || !part)
       return { error: "No se pudieron agregar los invitados." };
 
+    const token = randomUUID();
     await supabase.from("invitations").insert({
       session_id: sesion.id,
       participant_id: part.id,
       email: p.email,
-      token: randomUUID(),
+      token,
       status: "pending",
     });
+
+    // Mandar el email de invitación (best-effort: no frena la creación si falla)
+    try {
+      await enviarInvitacion({
+        para: p.email,
+        creadorNombre,
+        tema,
+        link: `${process.env.NEXT_PUBLIC_APP_URL ?? ""}/invitacion/${token}`,
+      });
+    } catch {
+      // Ignoramos errores de email acá; la invitación ya quedó guardada.
+    }
   }
 
   // Listo: al Home (donde ya aparece la conversación nueva)
