@@ -70,6 +70,9 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   en `supabase/migrations/0001_init.sql`; las claves, solo en `.env.local` (no se suben).
 - **Épica 2 — Login por link mágico:** entrar sin contraseña con el email; Home protegido
   (sin sesión va a `/ingresar`); botón "Salir". Probado de punta a punta por Santiago.
+- **Épica 3 — Crear sesión real (F1):** `/crear` guarda en la base (sesión + creador +
+  invitados + invitaciones) y el Home lista las conversaciones reales (estado con puntito,
+  avatares, "hace X"). Validado por Santiago.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -78,11 +81,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 3 (crear sesión real) **construida**: `/crear` guarda en la base (sesión +
-participante creador + invitados + invitaciones con token) vía una acción de servidor, y
-el Home muestra las conversaciones **reales** de la persona. Falta que Santiago la
-**pruebe**: crear una conversación y verla aparecer en el Home. Los emails de invitación
-se mandan en la Épica 4.
+Épica 3 lista y verificada. **Próxima: Épica 4 — Invitaciones por email (Resend).**
+Necesita que Santiago cree una cuenta gratis en Resend. Nota: sin dominio propio verificado,
+Resend solo deja enviar al email de la cuenta (alcanza para probar con el mail de Santiago);
+para invitar a terceros más adelante hay que verificar un dominio.
 
-El esquema SQL irá evolucionando con migraciones nuevas (`0002_`, `0003_`…) a medida que
-cada épica lo necesite.
+Pendiente visual (anotado en IDEAS): pasada dedicada a la paleta/look (Santiago la explica).
+El esquema SQL irá evolucionando con migraciones nuevas (`0002_`, …) según cada épica.

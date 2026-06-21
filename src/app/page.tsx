@@ -19,11 +19,10 @@ type SesionRow = {
 };
 
 function etiquetaEstado(status: string) {
-  if (status === "activa") return { label: "Activa", cls: "bg-blush text-brand" };
-  if (status === "no_iniciada")
-    return { label: "Sin iniciar", cls: "bg-field text-muted" };
-  if (status === "cerrada") return { label: "Cerrada", cls: "bg-field text-muted" };
-  return { label: status, cls: "bg-field text-muted" };
+  if (status === "activa") return { label: "Activa", dot: "#3fa66a" };
+  if (status === "no_iniciada") return { label: "Sin iniciar", dot: "#c9933f" };
+  if (status === "cerrada") return { label: "Cerrada", dot: "#9a8f93" };
+  return { label: status, dot: "#9a8f93" };
 }
 
 function TarjetaConversacion({ s }: { s: SesionRow }) {
@@ -44,9 +43,15 @@ function TarjetaConversacion({ s }: { s: SesionRow }) {
           ))}
         </div>
         <span className="flex shrink-0 items-center gap-2 text-[11px] text-muted">
-          <span className={`rounded-full px-2 py-0.5 font-semibold ${estado.cls}`}>
+          <span className="flex items-center gap-1.5">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ background: estado.dot }}
+            />
             {estado.label}
           </span>
+          <span aria-hidden="true">·</span>
           {tiempoRelativo(s.created_at)}
         </span>
       </div>

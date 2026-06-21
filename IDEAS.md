@@ -46,6 +46,12 @@ Propuestas de producto/UX para evaluar (no son del paso actual; respetan el alca
 - **Confirmaciones cálidas y reversibles:** al declinar o cerrar, un "deshacer" breve por
   si fue sin querer.
 - **Accesibilidad extra:** control de tamaño de texto / alto contraste opcional.
+- **Validaciones front + back (disciplina):** validar siempre en los dos lados — el
+  navegador para avisar rápido, el servidor para seguridad. Hoy crear-sesión ya lo hace;
+  mantenerlo en cada formulario nuevo.
+- **Revisión visual / paleta (pasada dedicada):** retomar la dirección visual con calma
+  (Santiago explica mejor qué busca). Evaluar un look más estándar/neutro, menos "de
+  marca"; revisar carteles de estado, uso del burdeos/rosado, tipografía, etc.
 
 ## Dudas abiertas
 

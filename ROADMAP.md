@@ -23,9 +23,9 @@ Santiago cree una cuenta o haga una acción con sus manos.
 1. [x] 🔑 **Base de datos (Supabase):** modelo de datos (usuarios, sesiones, participantes,
    invitaciones, mensajes, resúmenes) + reglas de acceso (cada quien ve solo lo suyo).
 2. [x] 🔑 **Login por link mágico:** entrar sin contraseña, solo con el email.
-3. [~] **F1 real — crear sesión:** guardar en base (tema, objetivo, invitados; máx. 5
+3. [x] **F1 real — crear sesión:** guardar en base (tema, objetivo, invitados; máx. 5
    personas y 20 sesiones activas). *(La ayuda de IA para el objetivo llega en la épica 6.)*
-4. [ ] 🔑 **F2 real — invitaciones por email (Resend):** link mágico al invitado; aceptar /
+4. [~] 🔑 **F2 real — invitaciones por email (Resend):** link mágico al invitado; aceptar /
    proponer ajuste / declinar; reinvitar 1 sola vez tras 14 días.
 5. [ ] **F3 real — el hilo:** escribir y leer mensajes (2–5 personas), sin indicadores de presión.
 
