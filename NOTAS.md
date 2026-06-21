@@ -27,6 +27,7 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - `public/` → imágenes y archivos estáticos.
 - `*.md` y `bocetos.html` → los documentos del proyecto (PRD, bocetos, privacidad, guía).
 - `IDEAS.md` → mejoras, ideas y dudas para más adelante (no frena el trabajo de ahora).
+- `ROADMAP.md` → la lista de épicas (tareas grandes) que vamos haciendo de a una.
 - `.env.local` → acá van los secretos (todavía **no existe**; lo creamos al conectar cuentas). **Nunca** se sube.
 - `.env.example` → plantilla sin secretos que sí se versiona, para saber qué claves hacen falta.
 
@@ -72,10 +73,6 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-- **Repo privado en GitHub**: remoto ya conectado (origin = `Spasquini11/JUEGO-IA`).
-  El primer push espera a que Santiago complete el login del navegador; después se
-  vuelve a pushear para sincronizar todo.
-- **Armonizar** las pantallas 1 "crear" y 2 "invitación" con el nuevo lenguaje (último
-  retoque visual antes de la parte de atrás).
-- Después: **conectar base de datos + login + el coach con IA** (el corazón del
-  producto). Ahí Santiago crea las cuentas gratuitas. Lista completa en `IDEAS.md`.
+GitHub ya conectado y sincronizado. Armamos un plan de épicas en `ROADMAP.md` y las
+hacemos de a una. **Próxima: Épica 1 — Base de datos (Supabase).** Necesita que Santiago
+cree una cuenta gratis en Supabase; después Claude conecta la base y arma el modelo de datos.
