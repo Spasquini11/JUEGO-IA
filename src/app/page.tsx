@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import Avatar from "@/components/Avatar";
+import { createSupabaseServer } from "@/lib/supabase/server";
 
 /*
   Home: "Tus conversaciones".
-  Es la pantalla principal de la app: muestra las conversaciones que tenés
-  (activas y cerradas) y el botón para crear una nueva.
-  Por ahora los datos son de ejemplo (todavía sin base de datos).
+  Pantalla principal de la app. Requiere estar logueado (si no, manda a /ingresar).
+  Por ahora la lista es de ejemplo; los datos reales llegan en la épica F10.
 */
 
 type Estado = "activa" | "cerrada";
@@ -85,18 +86,35 @@ function TarjetaConversacion({ c }: { c: Conversacion }) {
   );
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Requiere sesión: si no hay usuario, va a la pantalla de ingreso.
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/ingresar");
+
   const activas = CONVERSACIONES.filter((c) => c.estado === "activa");
   const cerradas = CONVERSACIONES.filter((c) => c.estado === "cerrada");
   const vacio = CONVERSACIONES.length === 0;
 
   return (
     <main className="mx-auto w-full max-w-[560px] px-5 py-8 sm:py-12">
-      {/* Marca (provisoria, como texto hasta tener logo) */}
-      <p className="text-sm font-semibold tracking-tight">
-        <span className="text-brand">Entre</span>{" "}
-        <span className="text-ink">Nosotros</span>
-      </p>
+      {/* Barra superior: marca + salir */}
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-semibold tracking-tight">
+          <span className="text-brand">Entre</span>{" "}
+          <span className="text-ink">Nosotros</span>
+        </p>
+        <form action="/auth/signout" method="post">
+          <button
+            type="submit"
+            className="text-xs text-muted transition hover:text-ink"
+          >
+            Salir
+          </button>
+        </form>
+      </div>
 
       {/* Encabezado + acción principal */}
       <div className="mt-6 flex items-end justify-between gap-3">

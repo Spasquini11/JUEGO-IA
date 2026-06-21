@@ -76,7 +76,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 1 (base de datos) lista y verificada. **Próxima: Épica 2 — Login por link mágico**
-(entrar sin contraseña, solo con el email). Quizás haya que ajustar algo de auth en el
-panel de Supabase (le aviso a Santiago si toca). El esquema SQL irá evolucionando con
-migraciones nuevas (`0002_`, `0003_`…) a medida que cada épica lo necesite.
+Épica 2 (login por link mágico) **construida**: pantalla `/ingresar`, envío del link,
+vuelta en `/auth/callback`, cerrar sesión, y Home protegido (sin sesión manda a ingresar).
+Falta que Santiago **pruebe el login de punta a punta** (revisar config de URLs en el
+panel de Supabase + entrar con su email). Cuando funcione, marcamos la épica 2 como hecha.
+
+El esquema SQL irá evolucionando con migraciones nuevas (`0002_`, `0003_`…) a medida que
+cada épica lo necesite.
