@@ -2,84 +2,52 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Avatar from "@/components/Avatar";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { tiempoRelativo } from "@/lib/fecha";
 
 /*
   Home: "Tus conversaciones".
-  Pantalla principal de la app. Requiere estar logueado (si no, manda a /ingresar).
-  Por ahora la lista es de ejemplo; los datos reales llegan en la épica F10.
+  Pantalla principal. Requiere estar logueado. Muestra las conversaciones reales
+  de la persona (las que creó o donde participa), traídas de la base de datos.
 */
 
-type Estado = "activa" | "cerrada";
-
-type Conversacion = {
+type SesionRow = {
   id: string;
-  tema: string;
-  estado: Estado;
-  cuando: string;
-  personas: string[];
-  novedad?: boolean;
+  topic: string;
+  status: string;
+  created_at: string;
+  participants: { display_name: string }[];
 };
 
-const CONVERSACIONES: Conversacion[] = [
-  {
-    id: "1",
-    tema: "Nuestra relación con la plata",
-    estado: "activa",
-    cuando: "hace 2 días",
-    personas: ["Tania", "Vos", "Mamá"],
-    novedad: true,
-  },
-  {
-    id: "2",
-    tema: "Cómo nos repartimos las cosas de la casa",
-    estado: "activa",
-    cuando: "hace 1 semana",
-    personas: ["Javier", "Vos"],
-  },
-  {
-    id: "3",
-    tema: "La herencia de la abuela",
-    estado: "cerrada",
-    cuando: "en marzo",
-    personas: ["Vos", "Lucía", "Mamá", "Tío Beto"],
-  },
-];
+function etiquetaEstado(status: string) {
+  if (status === "activa") return { label: "Activa", cls: "bg-blush text-brand" };
+  if (status === "no_iniciada")
+    return { label: "Sin iniciar", cls: "bg-field text-muted" };
+  if (status === "cerrada") return { label: "Cerrada", cls: "bg-field text-muted" };
+  return { label: status, cls: "bg-field text-muted" };
+}
 
-function TarjetaConversacion({ c }: { c: Conversacion }) {
+function TarjetaConversacion({ s }: { s: SesionRow }) {
+  const estado = etiquetaEstado(s.status);
+  const nombres = s.participants?.map((p) => p.display_name) ?? [];
+
   return (
     <Link
       href="/conversacion"
-      aria-label={`Conversación: ${c.tema}. ${
-        c.estado === "activa" ? "Activa" : "Cerrada"
-      }. Con ${c.personas.join(", ")}.`}
+      aria-label={`Conversación: ${s.topic}. ${estado.label}. Con ${nombres.join(", ")}.`}
       className="group block rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_12px_rgba(100,28,52,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(100,28,52,0.10)]"
     >
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="font-semibold leading-snug text-ink">{c.tema}</h3>
-        {c.novedad && (
-          <span className="mt-0.5 shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-on-accent">
-            Nuevo
-          </span>
-        )}
-      </div>
-
+      <h3 className="font-semibold leading-snug text-ink">{s.topic}</h3>
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="flex -space-x-2" aria-hidden="true">
-          {c.personas.map((p) => (
-            <Avatar key={p} nombre={p} />
+          {nombres.map((n, i) => (
+            <Avatar key={`${n}-${i}`} nombre={n} />
           ))}
         </div>
         <span className="flex shrink-0 items-center gap-2 text-[11px] text-muted">
-          <span
-            className={
-              c.estado === "activa"
-                ? "rounded-full bg-blush px-2 py-0.5 font-semibold text-brand"
-                : "rounded-full bg-field px-2 py-0.5 font-semibold text-muted"
-            }
-          >
-            {c.estado === "activa" ? "Activa" : "Cerrada"}
+          <span className={`rounded-full px-2 py-0.5 font-semibold ${estado.cls}`}>
+            {estado.label}
           </span>
-          {c.cuando}
+          {tiempoRelativo(s.created_at)}
         </span>
       </div>
     </Link>
@@ -87,16 +55,23 @@ function TarjetaConversacion({ c }: { c: Conversacion }) {
 }
 
 export default async function HomePage() {
-  // Requiere sesión: si no hay usuario, va a la pantalla de ingreso.
   const supabase = await createSupabaseServer();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/ingresar");
 
-  const activas = CONVERSACIONES.filter((c) => c.estado === "activa");
-  const cerradas = CONVERSACIONES.filter((c) => c.estado === "cerrada");
-  const vacio = CONVERSACIONES.length === 0;
+  const { data } = await supabase
+    .from("sessions")
+    .select("id, topic, status, created_at, participants(display_name)")
+    .order("created_at", { ascending: false });
+
+  const sesiones = (data ?? []) as SesionRow[];
+  const enCurso = sesiones.filter(
+    (s) => s.status === "activa" || s.status === "no_iniciada",
+  );
+  const cerradas = sesiones.filter((s) => s.status === "cerrada");
+  const vacio = sesiones.length === 0;
 
   return (
     <main className="mx-auto w-full max-w-[560px] px-5 py-8 sm:py-12">
@@ -151,14 +126,14 @@ export default async function HomePage() {
         </div>
       ) : (
         <div className="mt-8 flex flex-col gap-7">
-          {activas.length > 0 && (
+          {enCurso.length > 0 && (
             <section>
               <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted">
-                Activas
+                En curso
               </h2>
               <div className="flex flex-col gap-3">
-                {activas.map((c) => (
-                  <TarjetaConversacion key={c.id} c={c} />
+                {enCurso.map((s) => (
+                  <TarjetaConversacion key={s.id} s={s} />
                 ))}
               </div>
             </section>
@@ -170,8 +145,8 @@ export default async function HomePage() {
                 Cerradas
               </h2>
               <div className="flex flex-col gap-3">
-                {cerradas.map((c) => (
-                  <TarjetaConversacion key={c.id} c={c} />
+                {cerradas.map((s) => (
+                  <TarjetaConversacion key={s.id} s={s} />
                 ))}
               </div>
             </section>

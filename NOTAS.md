@@ -68,6 +68,8 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - **Épica 1 — Base de datos (Supabase):** 6 tablas + reglas de privacidad (RLS) creadas;
   la app se conecta OK (chequeo `/api/db-check` devolvió ok, 0 sesiones). El esquema vive
   en `supabase/migrations/0001_init.sql`; las claves, solo en `.env.local` (no se suben).
+- **Épica 2 — Login por link mágico:** entrar sin contraseña con el email; Home protegido
+  (sin sesión va a `/ingresar`); botón "Salir". Probado de punta a punta por Santiago.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -76,10 +78,11 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 2 (login por link mágico) **construida**: pantalla `/ingresar`, envío del link,
-vuelta en `/auth/callback`, cerrar sesión, y Home protegido (sin sesión manda a ingresar).
-Falta que Santiago **pruebe el login de punta a punta** (revisar config de URLs en el
-panel de Supabase + entrar con su email). Cuando funcione, marcamos la épica 2 como hecha.
+Épica 3 (crear sesión real) **construida**: `/crear` guarda en la base (sesión +
+participante creador + invitados + invitaciones con token) vía una acción de servidor, y
+el Home muestra las conversaciones **reales** de la persona. Falta que Santiago la
+**pruebe**: crear una conversación y verla aparecer en el Home. Los emails de invitación
+se mandan en la Épica 4.
 
 El esquema SQL irá evolucionando con migraciones nuevas (`0002_`, `0003_`…) a medida que
 cada épica lo necesite.
