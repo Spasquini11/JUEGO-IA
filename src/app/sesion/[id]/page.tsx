@@ -6,6 +6,7 @@ import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import Invitaciones, { type InvitacionVista } from "./Invitaciones";
 import Escribir from "./Escribir";
 import Cierre from "./Cierre";
+import Borrar from "./Borrar";
 
 /*
   Vista de una sesión (Épicas 4, 5 y 10).
@@ -194,6 +195,8 @@ export default async function SesionPage({
             {!cerrada && !propuestaCierre && (
               <Cierre sessionId={id} vista="proponer" />
             )}
+
+            <Borrar sessionId={id} esCreador={esCreador} />
           </div>
         </details>
       </header>

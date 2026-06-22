@@ -1,6 +1,7 @@
 "use server";
 
 import { randomUUID } from "crypto";
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
@@ -179,4 +180,44 @@ export async function seguirConversando(sessionId: string): Promise<void> {
     .update({ close_proposed_at: null, close_proposed_by: null })
     .eq("id", sessionId);
   revalidatePath(`/sesion/${sessionId}`);
+}
+
+// --- Borrado real (Épica 11) ---
+
+export async function borrarMisMensajes(sessionId: string): Promise<void> {
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  // Las reglas de la base (RLS) solo dejan borrar los mensajes propios.
+  await supabase
+    .from("messages")
+    .delete()
+    .eq("session_id", sessionId)
+    .eq("sender_id", user.id);
+  revalidatePath(`/sesion/${sessionId}`);
+}
+
+export async function borrarSesion(sessionId: string): Promise<void> {
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  // Solo el creador puede borrar la conversación entera.
+  const admin = getSupabaseAdmin();
+  const { data: s } = await admin
+    .from("sessions")
+    .select("creator_id")
+    .eq("id", sessionId)
+    .maybeSingle();
+  if (!s || s.creator_id !== user.id) return;
+
+  // Borrado real: al borrar la sesión, la base borra en cascada participantes,
+  // invitaciones, mensajes y resúmenes (ON DELETE CASCADE).
+  await admin.from("sessions").delete().eq("id", sessionId);
+  redirect("/");
 }

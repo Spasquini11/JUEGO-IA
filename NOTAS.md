@@ -78,7 +78,12 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   reinvitación (1 vez, 14 días). Probado por Santiago (declinar + reinvitar OK en la base).
 - **Épica 5 — El hilo real (F3):** dentro de `/sesion/[id]` se escriben y leen mensajes
   (burbujas con avatar por persona; sin "visto" ni "escribiendo"). Participantes/ajustes en
-  un desplegable. Compila OK; falta la prueba de Santiago.
+  un desplegable. Probado por Santiago.
+- **Cierre (F6, parte gratis):** proponer cerrar / confirmar / seguir, y autocierre a los
+  7 días; la sesión cerrada queda de lectura. El resumen (IA) va al final. Propuesta de
+  cierre probada por Santiago.
+- **Borrado real (F11):** cada quien borra sus mensajes; el creador borra la conversación
+  entera (borrado real con cascada en la base). Siempre con confirmación.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -87,10 +92,11 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 5 (hilo real) construida (compila). Falta que Santiago **pruebe escribir/leer mensajes**.
-**Próxima: Épica 6 — el coach con IA (Claude)**, el corazón del producto. Necesita la
-cuenta/clave de Anthropic (`ANTHROPIC_API_KEY` en `.env.local`); es el único servicio pago
-(centavos a esta escala).
+Reordenado por la regla "pagos al final": lo que usa IA (coach F4, crisis F7, resumen F6,
+apertura F8) queda **al final** con Anthropic. Seguimos con lo gratis.
+
+**Próxima gratis (a elegir):** F5 — avisos por email + indicador "tenés algo nuevo"; o
+F10 — archivar sesiones a los 30 días. Ya hechas además: cierre (F6 gratis) y borrado real (F11).
 
 Recordatorio: sin dominio verificado, Resend solo entrega al email de la cuenta de Santiago.
 Pendiente visual (IDEAS): pasada dedicada a la paleta. El SQL evoluciona con migraciones.

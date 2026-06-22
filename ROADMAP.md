@@ -46,14 +46,14 @@ Santiago cree una cuenta o haga una acción con sus manos.
 
 ## Fase 3 — El ciclo completo de una conversación
 
-10. [~] **F6 real — cierre + resumen:** proponer cierre + confirmación (o 7 días sin objeción).
-    *(El cierre lo hacemos ahora —es gratis—; el resumen con IA queda para el final.)*
+10. [x] **F6 real — cierre + resumen:** proponer cierre + confirmación (o 7 días sin objeción).
+    *(Cierre hecho —gratis—; el resumen con IA queda para el final.)*
 11. [ ] **F5 — avisos:** email agrupado (máx. 1 por día) + indicador in-app de novedad.
 12. [ ] **F8 — apertura guiada:** 2–3 preguntas de inicio sugeridas al creador.
 13. [ ] **F9 — nudge suave:** tras 7 días sin actividad, un empujoncito privado y desactivable.
 14. [ ] **F10 real — tus conversaciones:** lista con datos reales (activas/cerradas) +
     sugerir archivar a los 30 días.
-15. [ ] **F11 — borrado real a pedido:** borrar de verdad lo que una persona pide (no fingido).
+15. [x] **F11 — borrado real a pedido:** borrar de verdad lo que una persona pide (no fingido).
 
 ## Fase 4 — Calidad 10/10 y salir al mundo
 
