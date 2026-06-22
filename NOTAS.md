@@ -95,8 +95,12 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 Reordenado por la regla "pagos al final": lo que usa IA (coach F4, crisis F7, resumen F6,
 apertura F8) queda **al final** con Anthropic. Seguimos con lo gratis.
 
-**Próxima gratis (a elegir):** F5 — avisos por email + indicador "tenés algo nuevo"; o
-F10 — archivar sesiones a los 30 días. Ya hechas además: cierre (F6 gratis) y borrado real (F11).
+**F5 (avisos) — indicador in-app de novedad ("Nuevo") construido.** Requiere correr la
+migración `0002_last_seen.sql` en Supabase (agrega `participants.last_seen_at`). El email
+de aviso queda diferido hasta tener dominio (va con el deploy).
+
+**Próxima gratis (a elegir):** F10 — archivar a los 30 días; o saltar al pulido de
+seguridad / accesibilidad / rendimiento (Fase 4). Las de IA, al final con Anthropic.
 
 Recordatorio: sin dominio verificado, Resend solo entrega al email de la cuenta de Santiago.
 Pendiente visual (IDEAS): pasada dedicada a la paleta. El SQL evoluciona con migraciones.

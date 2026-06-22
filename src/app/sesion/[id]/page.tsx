@@ -65,6 +65,13 @@ export default async function SesionPage({
     );
   }
 
+  // Marcar la sesión como vista por esta persona (para el aviso de novedad en el Home).
+  await supabase
+    .from("participants")
+    .update({ last_seen_at: new Date().toISOString() })
+    .eq("session_id", id)
+    .eq("user_id", user.id);
+
   // Autocierre: si se propuso cerrar y pasaron 7 días sin objeción, se cierra sola.
   let status = sesion.status as string;
   if (status !== "cerrada" && sesion.close_proposed_at) {

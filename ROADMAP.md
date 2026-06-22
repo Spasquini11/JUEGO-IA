@@ -48,7 +48,8 @@ Santiago cree una cuenta o haga una acción con sus manos.
 
 10. [x] **F6 real — cierre + resumen:** proponer cierre + confirmación (o 7 días sin objeción).
     *(Cierre hecho —gratis—; el resumen con IA queda para el final.)*
-11. [ ] **F5 — avisos:** email agrupado (máx. 1 por día) + indicador in-app de novedad.
+11. [~] **F5 — avisos:** indicador in-app de novedad ("Nuevo") **hecho**; el email agrupado
+    (máx. 1/día) queda diferido hasta tener un dominio verificado (va con el deploy).
 12. [ ] **F8 — apertura guiada:** 2–3 preguntas de inicio sugeridas al creador.
 13. [ ] **F9 — nudge suave:** tras 7 días sin actividad, un empujoncito privado y desactivable.
 14. [ ] **F10 real — tus conversaciones:** lista con datos reales (activas/cerradas) +

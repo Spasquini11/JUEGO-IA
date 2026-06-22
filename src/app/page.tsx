@@ -7,7 +7,7 @@ import { tiempoRelativo } from "@/lib/fecha";
 /*
   Home: "Tus conversaciones".
   Pantalla principal. Requiere estar logueado. Muestra las conversaciones reales
-  de la persona (las que creó o donde participa), traídas de la base de datos.
+  de la persona, con un indicador "Nuevo" cuando hay mensajes que todavía no vio.
 */
 
 type SesionRow = {
@@ -25,17 +25,33 @@ function etiquetaEstado(status: string) {
   return { label: status, dot: "#9a8f93" };
 }
 
-function TarjetaConversacion({ s }: { s: SesionRow }) {
+function TarjetaConversacion({
+  s,
+  novedad,
+}: {
+  s: SesionRow;
+  novedad: boolean;
+}) {
   const estado = etiquetaEstado(s.status);
   const nombres = s.participants?.map((p) => p.display_name) ?? [];
 
   return (
     <Link
       href={`/sesion/${s.id}`}
-      aria-label={`Conversación: ${s.topic}. ${estado.label}. Con ${nombres.join(", ")}.`}
+      aria-label={`Conversación: ${s.topic}. ${estado.label}.${
+        novedad ? " Tenés algo nuevo." : ""
+      } Con ${nombres.join(", ")}.`}
       className="group block rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_12px_rgba(100,28,52,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(100,28,52,0.10)]"
     >
-      <h3 className="font-semibold leading-snug text-ink">{s.topic}</h3>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="font-semibold leading-snug text-ink">{s.topic}</h3>
+        {novedad && (
+          <span className="mt-0.5 shrink-0 rounded-full bg-brand px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-on-accent">
+            Nuevo
+          </span>
+        )}
+      </div>
+
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="flex -space-x-2" aria-hidden="true">
           {nombres.map((n, i) => (
@@ -70,8 +86,32 @@ export default async function HomePage() {
     .from("sessions")
     .select("id, topic, status, created_at, participants(display_name)")
     .order("created_at", { ascending: false });
-
   const sesiones = (data ?? []) as SesionRow[];
+
+  // Novedad: ¿hay mensajes de otra persona posteriores a la última vez que vi la sesión?
+  const { data: misParts } = await supabase
+    .from("participants")
+    .select("session_id, last_seen_at")
+    .eq("user_id", user.id);
+  const vistoPorSesion = new Map(
+    (misParts ?? []).map((p) => [
+      p.session_id,
+      p.last_seen_at as string | null,
+    ]),
+  );
+
+  const { data: todosMsgs } = await supabase
+    .from("messages")
+    .select("session_id, sender_id, created_at");
+  const novedadPorSesion = new Map<string, boolean>();
+  for (const m of todosMsgs ?? []) {
+    if (m.sender_id === user.id) continue;
+    const visto = vistoPorSesion.get(m.session_id);
+    if (!visto || new Date(m.created_at) > new Date(visto)) {
+      novedadPorSesion.set(m.session_id, true);
+    }
+  }
+
   const enCurso = sesiones.filter(
     (s) => s.status === "activa" || s.status === "no_iniciada",
   );
@@ -138,7 +178,11 @@ export default async function HomePage() {
               </h2>
               <div className="flex flex-col gap-3">
                 {enCurso.map((s) => (
-                  <TarjetaConversacion key={s.id} s={s} />
+                  <TarjetaConversacion
+                    key={s.id}
+                    s={s}
+                    novedad={novedadPorSesion.get(s.id) ?? false}
+                  />
                 ))}
               </div>
             </section>
@@ -151,7 +195,11 @@ export default async function HomePage() {
               </h2>
               <div className="flex flex-col gap-3">
                 {cerradas.map((s) => (
-                  <TarjetaConversacion key={s.id} s={s} />
+                  <TarjetaConversacion
+                    key={s.id}
+                    s={s}
+                    novedad={novedadPorSesion.get(s.id) ?? false}
+                  />
                 ))}
               </div>
             </section>
