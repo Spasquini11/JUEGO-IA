@@ -104,6 +104,7 @@ export async function crearSesion(
       email: p.email,
       token,
       status: "pending",
+      last_sent_at: new Date().toISOString(),
     });
 
     // Mandar el email de invitación (best-effort: no frena la creación si falla)

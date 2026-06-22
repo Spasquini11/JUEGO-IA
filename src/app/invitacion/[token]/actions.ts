@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { enviarPropuesta } from "@/lib/email";
 
 /*
   Respuesta del invitado a una invitación (Épica 4).
@@ -71,4 +72,56 @@ export async function declinarInvitacion(
   await admin.from("invitations").update({ status: "declined" }).eq("id", inv.id);
 
   redirect(`/invitacion/${token}`);
+}
+
+export async function proponerAjuste(
+  token: string,
+  mensaje: string,
+): Promise<{ ok?: boolean; error?: string }> {
+  const texto = mensaje.trim();
+  if (!texto) return { error: "Escribí qué ajustarías del objetivo." };
+
+  const admin = getSupabaseAdmin();
+  const { data: inv } = await admin
+    .from("invitations")
+    .select("id, status, participant_id, session_id")
+    .eq("token", token)
+    .maybeSingle();
+  if (!inv || inv.status !== "pending") {
+    return { error: "Esta invitación ya no está disponible." };
+  }
+
+  const { data: sesion } = await admin
+    .from("sessions")
+    .select("topic, creator_id")
+    .eq("id", inv.session_id)
+    .single();
+  const { data: parti } = await admin
+    .from("participants")
+    .select("display_name")
+    .eq("id", inv.participant_id)
+    .maybeSingle();
+
+  // Buscar el email del creador para mandarle la propuesta
+  let creadorEmail: string | null = null;
+  if (sesion?.creator_id) {
+    const { data: u } = await admin.auth.admin.getUserById(sesion.creator_id);
+    creadorEmail = u.user?.email ?? null;
+  }
+
+  if (creadorEmail) {
+    try {
+      await enviarPropuesta({
+        para: creadorEmail,
+        invitadoNombre: parti?.display_name ?? "Un invitado",
+        tema: sesion?.topic ?? "",
+        mensaje: texto,
+      });
+    } catch {
+      // no frenamos si el email falla
+    }
+  }
+
+  // La invitación sigue pendiente: la persona puede aceptar luego del ajuste.
+  return { ok: true };
 }

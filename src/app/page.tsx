@@ -31,7 +31,7 @@ function TarjetaConversacion({ s }: { s: SesionRow }) {
 
   return (
     <Link
-      href="/conversacion"
+      href={`/sesion/${s.id}`}
       aria-label={`Conversación: ${s.topic}. ${estado.label}. Con ${nombres.join(", ")}.`}
       className="group block rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_12px_rgba(100,28,52,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(100,28,52,0.10)]"
     >

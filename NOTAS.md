@@ -73,6 +73,9 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 - **Épica 3 — Crear sesión real (F1):** `/crear` guarda en la base (sesión + creador +
   invitados + invitaciones) y el Home lista las conversaciones reales (estado con puntito,
   avatares, "hace X"). Validado por Santiago.
+- **Épica 4 — Invitaciones (F2):** al crear se mandan los emails (Resend); `/invitacion/[token]`
+  real con aceptar / proponer ajuste / declinar; vista `/sesion/[id]` con participantes y
+  reinvitación (1 vez, 14 días). Compila OK; falta la prueba de Santiago.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -81,10 +84,9 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 4 (invitaciones) **núcleo construido**: al crear una sesión se mandan los emails de
-invitación (Resend); `/invitacion/[token]` muestra la invitación real y permite **aceptar**
-(la sesión pasa a activa) o **declinar**. Falta que Santiago lo **pruebe de punta a punta**
-(invitándose a su propio email) y, después, sumar **proponer un ajuste** y **reinvitación**.
+Épica 4 lista (compila; falta solo la prueba de Santiago). **Próxima: Épica 5 — el hilo
+real**: escribir y leer mensajes dentro de `/sesion/[id]` (hoy esa vista tiene un
+placeholder del hilo).
 
 Recordatorio: sin dominio verificado, Resend solo entrega al email de la cuenta de Santiago.
 Pendiente visual (IDEAS): pasada dedicada a la paleta. El SQL evoluciona con migraciones.
