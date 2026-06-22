@@ -3,19 +3,27 @@ import { redirect } from "next/navigation";
 import Avatar from "@/components/Avatar";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import Invitaciones, { type InvitacionVista } from "./Invitaciones";
+import Escribir from "./Escribir";
 
 /*
-  Vista de una sesión (Épica 4 + base de la Épica 5).
-  Muestra el tema, el objetivo y los participantes con su estado. Si quien mira es
-  el creador, ve a quién declinó y puede reinvitar (con la regla de 14 días).
-  El hilo de mensajes (escribir/leer) llega en la Épica 5.
+  Vista de una sesión (Épica 4 + Épica 5).
+  Muestra el hilo de mensajes (escribir/leer) y, en un desplegable, los
+  participantes con su estado. Si quien mira es el creador, ve a quién declinó y
+  puede reinvitar (regla de 14 días).
 */
 
 type Participante = {
   id: string;
+  user_id: string | null;
   display_name: string;
   role: string;
   status: string;
+};
+
+type Mensaje = {
+  id: string;
+  body: string;
+  sender_id: string;
 };
 
 function estadoParticipante(p: Participante) {
@@ -59,10 +67,25 @@ export default async function SesionPage({
 
   const { data: parts } = await supabase
     .from("participants")
-    .select("id, display_name, role, status")
+    .select("id, user_id, display_name, role, status")
     .eq("session_id", id);
   const participantes = (parts ?? []) as Participante[];
 
+  const { data: msgs } = await supabase
+    .from("messages")
+    .select("id, body, sender_id")
+    .eq("session_id", id)
+    .order("created_at", { ascending: true });
+  const mensajes = (msgs ?? []) as Mensaje[];
+
+  // Nombre para mostrar según quién escribió cada mensaje
+  const nombrePorUsuario = new Map(
+    participantes
+      .filter((p) => p.user_id)
+      .map((p) => [p.user_id as string, p.display_name]),
+  );
+
+  // Datos de reinvitación (solo para el creador)
   let declinaron: InvitacionVista[] = [];
   if (esCreador) {
     const { data: invs } = await supabase
@@ -110,48 +133,75 @@ export default async function SesionPage({
   }
 
   return (
-    <main className="mx-auto w-full max-w-[460px] px-5 py-8 sm:py-12">
-      <Link href="/" className="text-sm text-muted transition hover:text-ink">
-        ‹ Volver
-      </Link>
+    <main className="mx-auto flex min-h-dvh w-full max-w-[460px] flex-col px-5 py-6">
+      <header>
+        <Link href="/" className="text-sm text-muted transition hover:text-ink">
+          ‹ Volver
+        </Link>
+        <p className="eyebrow mt-3">{participantes.length} personas</p>
+        <h1 className="mt-1 text-xl font-bold tracking-tight text-brand">
+          {sesion.topic}
+        </h1>
 
-      <p className="eyebrow mt-3">{participantes.length} personas</p>
-      <h1 className="mt-1 text-2xl font-bold tracking-tight text-brand">
-        {sesion.topic}
-      </h1>
-      {sesion.objective && (
-        <p className="mt-2 text-sm leading-relaxed text-muted">
-          “{sesion.objective}”
-        </p>
-      )}
+        <details className="mt-3 border-b border-line pb-3">
+          <summary className="cursor-pointer text-[13px] text-muted">
+            Participantes y ajustes
+          </summary>
+          <div className="mt-3">
+            {sesion.objective && (
+              <p className="mb-3 text-[13px] leading-relaxed text-muted">
+                “{sesion.objective}”
+              </p>
+            )}
+            <ul className="flex flex-col gap-2.5">
+              {participantes.map((p) => (
+                <li key={p.id} className="flex items-center gap-3">
+                  <Avatar nombre={p.display_name} size={28} />
+                  <span className="text-sm font-medium text-ink">
+                    {p.display_name}
+                  </span>
+                  <span className="ml-auto text-[11px] text-muted">
+                    {estadoParticipante(p)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {esCreador && declinaron.length > 0 && (
+              <Invitaciones invitaciones={declinaron} />
+            )}
+          </div>
+        </details>
+      </header>
 
-      <h2 className="mt-7 text-xs font-bold uppercase tracking-wider text-muted">
-        Participantes
-      </h2>
-      <ul className="mt-3 flex flex-col gap-2.5">
-        {participantes.map((p) => (
-          <li key={p.id} className="flex items-center gap-3">
-            <Avatar nombre={p.display_name} />
-            <span className="text-sm font-medium text-ink">{p.display_name}</span>
-            <span className="ml-auto text-[11px] text-muted">
-              {estadoParticipante(p)}
-            </span>
-          </li>
-        ))}
-      </ul>
-
-      {esCreador && declinaron.length > 0 && (
-        <Invitaciones invitaciones={declinaron} />
-      )}
-
-      <div className="mt-8 rounded-2xl border border-dashed border-blush-2 bg-surface p-6 text-center">
-        <p className="text-sm font-semibold text-ink">
-          El hilo de la conversación llega en el próximo paso
-        </p>
-        <p className="mt-1 text-[13px] text-muted">
-          Acá vas a poder escribir y leer los mensajes.
-        </p>
+      {/* Hilo de mensajes */}
+      <div className="mt-6 flex flex-1 flex-col gap-3">
+        {mensajes.length === 0 ? (
+          <p className="mt-10 text-center text-sm text-muted">
+            Todavía no hay mensajes. Escribí el primero.
+          </p>
+        ) : (
+          mensajes.map((m) => {
+            const propio = m.sender_id === user.id;
+            const de = nombrePorUsuario.get(m.sender_id) ?? "Alguien";
+            return propio ? (
+              <div key={m.id} className="flex flex-col items-end">
+                <span className="msg-who pr-1">{de}</span>
+                <div className="msg msg-me">{m.body}</div>
+              </div>
+            ) : (
+              <div key={m.id} className="flex max-w-[88%] items-start gap-2">
+                <Avatar nombre={de} size={28} />
+                <div className="min-w-0">
+                  <span className="msg-who">{de}</span>
+                  <div className="msg msg-them">{m.body}</div>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
+
+      <Escribir sessionId={id} />
     </main>
   );
 }

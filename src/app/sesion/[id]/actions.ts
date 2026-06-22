@@ -85,3 +85,31 @@ export async function reinvitar(
   revalidatePath(`/sesion/${inv.session_id}`);
   return { ok: true };
 }
+
+/*
+  Enviar un mensaje al hilo (Épica 5).
+  Usa el cliente del usuario (no admin): las reglas de la base (RLS) garantizan que
+  solo un participante de la sesión puede escribir, y siempre como sí mismo.
+*/
+export async function enviarMensaje(
+  sessionId: string,
+  texto: string,
+): Promise<{ error?: string } | void> {
+  const t = texto.trim();
+  if (!t) return { error: "Escribí algo." };
+
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Entrá para escribir." };
+
+  const { error } = await supabase.from("messages").insert({
+    session_id: sessionId,
+    sender_id: user.id,
+    body: t,
+  });
+  if (error) return { error: "No se pudo enviar el mensaje." };
+
+  revalidatePath(`/sesion/${sessionId}`);
+}

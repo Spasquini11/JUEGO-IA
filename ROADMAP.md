@@ -27,11 +27,11 @@ Santiago cree una cuenta o haga una acción con sus manos.
    personas y 20 sesiones activas). *(La ayuda de IA para el objetivo llega en la épica 6.)*
 4. [x] 🔑 **F2 real — invitaciones por email (Resend):** link mágico al invitado; aceptar /
    proponer ajuste / declinar; reinvitar 1 sola vez tras 14 días.
-5. [~] **F3 real — el hilo:** escribir y leer mensajes (2–5 personas), sin indicadores de presión.
+5. [x] **F3 real — el hilo:** escribir y leer mensajes (2–5 personas), sin indicadores de presión.
 
 ## Fase 2 — El corazón (el coach, lo que lo hace único)
 
-6. [ ] 🔑 **F4 — coach con IA (Claude):** responder, suavizar, más directo, profundizar,
+6. [~] 🔑 **F4 — coach con IA (Claude):** responder, suavizar, más directo, profundizar,
    entender, ver temas; lee el hilo; siempre privado; con límites éticos (no manipular).
    Incluye la ayuda para clarificar el objetivo al crear.
 7. [ ] **F7 — contenido sensible:** protocolo de crisis (cuidado + ayuda profesional +

@@ -75,7 +75,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
   avatares, "hace X"). Validado por Santiago.
 - **Épica 4 — Invitaciones (F2):** al crear se mandan los emails (Resend); `/invitacion/[token]`
   real con aceptar / proponer ajuste / declinar; vista `/sesion/[id]` con participantes y
-  reinvitación (1 vez, 14 días). Compila OK; falta la prueba de Santiago.
+  reinvitación (1 vez, 14 días). Probado por Santiago (declinar + reinvitar OK en la base).
+- **Épica 5 — El hilo real (F3):** dentro de `/sesion/[id]` se escriben y leen mensajes
+  (burbujas con avatar por persona; sin "visto" ni "escribiendo"). Participantes/ajustes en
+  un desplegable. Compila OK; falta la prueba de Santiago.
 
 **Por revisar (sin urgencia):**
 - npm reportó 2 "vulnerabilidades moderadas" en la base recién creada. Vienen de
@@ -84,9 +87,10 @@ conectar más adelante; te voy a avisar cuándo te toque crear una cuenta o pega
 
 ## Próximo paso
 
-Épica 4 lista (compila; falta solo la prueba de Santiago). **Próxima: Épica 5 — el hilo
-real**: escribir y leer mensajes dentro de `/sesion/[id]` (hoy esa vista tiene un
-placeholder del hilo).
+Épica 5 (hilo real) construida (compila). Falta que Santiago **pruebe escribir/leer mensajes**.
+**Próxima: Épica 6 — el coach con IA (Claude)**, el corazón del producto. Necesita la
+cuenta/clave de Anthropic (`ANTHROPIC_API_KEY` en `.env.local`); es el único servicio pago
+(centavos a esta escala).
 
 Recordatorio: sin dominio verificado, Resend solo entrega al email de la cuenta de Santiago.
 Pendiente visual (IDEAS): pasada dedicada a la paleta. El SQL evoluciona con migraciones.
