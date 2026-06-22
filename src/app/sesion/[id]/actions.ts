@@ -113,3 +113,70 @@ export async function enviarMensaje(
 
   revalidatePath(`/sesion/${sessionId}`);
 }
+
+// --- Cierre de la conversación (Épica 10, parte gratis) ---
+
+async function esParticipante(
+  admin: ReturnType<typeof getSupabaseAdmin>,
+  sessionId: string,
+  userId: string,
+) {
+  const { data } = await admin
+    .from("participants")
+    .select("id")
+    .eq("session_id", sessionId)
+    .eq("user_id", userId)
+    .maybeSingle();
+  return !!data;
+}
+
+export async function proponerCierre(sessionId: string): Promise<void> {
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+  const admin = getSupabaseAdmin();
+  if (!(await esParticipante(admin, sessionId, user.id))) return;
+
+  await admin
+    .from("sessions")
+    .update({
+      close_proposed_at: new Date().toISOString(),
+      close_proposed_by: user.id,
+    })
+    .eq("id", sessionId);
+  revalidatePath(`/sesion/${sessionId}`);
+}
+
+export async function confirmarCierre(sessionId: string): Promise<void> {
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+  const admin = getSupabaseAdmin();
+  if (!(await esParticipante(admin, sessionId, user.id))) return;
+
+  await admin
+    .from("sessions")
+    .update({ status: "cerrada", closed_at: new Date().toISOString() })
+    .eq("id", sessionId);
+  revalidatePath(`/sesion/${sessionId}`);
+}
+
+export async function seguirConversando(sessionId: string): Promise<void> {
+  const supabase = await createSupabaseServer();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+  const admin = getSupabaseAdmin();
+  if (!(await esParticipante(admin, sessionId, user.id))) return;
+
+  await admin
+    .from("sessions")
+    .update({ close_proposed_at: null, close_proposed_by: null })
+    .eq("id", sessionId);
+  revalidatePath(`/sesion/${sessionId}`);
+}

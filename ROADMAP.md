@@ -31,9 +31,13 @@ Santiago cree una cuenta o haga una acción con sus manos.
 
 ## Fase 2 — El corazón (el coach, lo que lo hace único)
 
-6. [~] 🔑 **F4 — coach con IA (Claude):** responder, suavizar, más directo, profundizar,
+> ⏸ **Decisión (pagos al final):** las épicas que usan IA (6, 7, 8, 9, 12 y el resumen de
+> la 10) necesitan la cuenta **paga** de Anthropic. Las **diferimos al final**; primero
+> hacemos todo lo gratis/técnico. Recién al cierre Santiago crea esa cuenta.
+
+6. [ ] 🔑⏸ **F4 — coach con IA (Claude):** responder, suavizar, más directo, profundizar,
    entender, ver temas; lee el hilo; siempre privado; con límites éticos (no manipular).
-   Incluye la ayuda para clarificar el objetivo al crear.
+   Incluye la ayuda para clarificar el objetivo al crear. *(En pausa: necesita Anthropic.)*
 7. [ ] **F7 — contenido sensible:** protocolo de crisis (cuidado + ayuda profesional +
    emergencias genéricas) + disclaimers, integrado en el coach.
 8. [ ] **Prueba no negociable — privacidad del coach:** que su ayuda NUNCA aparezca en el
@@ -42,8 +46,8 @@ Santiago cree una cuenta o haga una acción con sus manos.
 
 ## Fase 3 — El ciclo completo de una conversación
 
-10. [ ] **F6 real — cierre + resumen:** proponer cierre + confirmación (o 7 días sin objeción);
-    resumen descriptivo–no-interpretativo (borrador privado, lo aprueba una persona).
+10. [~] **F6 real — cierre + resumen:** proponer cierre + confirmación (o 7 días sin objeción).
+    *(El cierre lo hacemos ahora —es gratis—; el resumen con IA queda para el final.)*
 11. [ ] **F5 — avisos:** email agrupado (máx. 1 por día) + indicador in-app de novedad.
 12. [ ] **F8 — apertura guiada:** 2–3 preguntas de inicio sugeridas al creador.
 13. [ ] **F9 — nudge suave:** tras 7 días sin actividad, un empujoncito privado y desactivable.

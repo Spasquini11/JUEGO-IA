@@ -2,14 +2,17 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Avatar from "@/components/Avatar";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import Invitaciones, { type InvitacionVista } from "./Invitaciones";
 import Escribir from "./Escribir";
+import Cierre from "./Cierre";
 
 /*
-  Vista de una sesión (Épica 4 + Épica 5).
-  Muestra el hilo de mensajes (escribir/leer) y, en un desplegable, los
-  participantes con su estado. Si quien mira es el creador, ve a quién declinó y
-  puede reinvitar (regla de 14 días).
+  Vista de una sesión (Épicas 4, 5 y 10).
+  - Hilo de mensajes (escribir/leer).
+  - Participantes y ajustes (desplegable), con reinvitación para el creador.
+  - Cierre: proponer cerrar, confirmar/seguir, y autocierre a los 7 días.
+  El resumen del cierre (con IA) queda para el final.
 */
 
 type Participante = {
@@ -20,11 +23,7 @@ type Participante = {
   status: string;
 };
 
-type Mensaje = {
-  id: string;
-  body: string;
-  sender_id: string;
-};
+type Mensaje = { id: string; body: string; sender_id: string };
 
 function estadoParticipante(p: Participante) {
   if (p.role === "creator") return "Creó la conversación";
@@ -47,7 +46,9 @@ export default async function SesionPage({
 
   const { data: sesion } = await supabase
     .from("sessions")
-    .select("id, topic, objective, status, creator_id")
+    .select(
+      "id, topic, objective, status, creator_id, close_proposed_at, close_proposed_by, closed_at",
+    )
     .eq("id", id)
     .maybeSingle();
 
@@ -63,7 +64,23 @@ export default async function SesionPage({
     );
   }
 
+  // Autocierre: si se propuso cerrar y pasaron 7 días sin objeción, se cierra sola.
+  let status = sesion.status as string;
+  if (status !== "cerrada" && sesion.close_proposed_at) {
+    const dias =
+      (Date.now() - new Date(sesion.close_proposed_at).getTime()) / 86_400_000;
+    if (dias >= 7) {
+      await getSupabaseAdmin()
+        .from("sessions")
+        .update({ status: "cerrada", closed_at: new Date().toISOString() })
+        .eq("id", sesion.id);
+      status = "cerrada";
+    }
+  }
+
   const esCreador = sesion.creator_id === user.id;
+  const cerrada = status === "cerrada";
+  const propuestaCierre = !cerrada && !!sesion.close_proposed_at;
 
   const { data: parts } = await supabase
     .from("participants")
@@ -78,12 +95,15 @@ export default async function SesionPage({
     .order("created_at", { ascending: true });
   const mensajes = (msgs ?? []) as Mensaje[];
 
-  // Nombre para mostrar según quién escribió cada mensaje
   const nombrePorUsuario = new Map(
     participantes
       .filter((p) => p.user_id)
       .map((p) => [p.user_id as string, p.display_name]),
   );
+
+  const proponente = sesion.close_proposed_by
+    ? nombrePorUsuario.get(sesion.close_proposed_by) ?? "Alguien"
+    : "Alguien";
 
   // Datos de reinvitación (solo para el creador)
   let declinaron: InvitacionVista[] = [];
@@ -138,7 +158,9 @@ export default async function SesionPage({
         <Link href="/" className="text-sm text-muted transition hover:text-ink">
           ‹ Volver
         </Link>
-        <p className="eyebrow mt-3">{participantes.length} personas</p>
+        <p className="eyebrow mt-3">
+          {participantes.length} personas{cerrada ? " · cerrada" : ""}
+        </p>
         <h1 className="mt-1 text-xl font-bold tracking-tight text-brand">
           {sesion.topic}
         </h1>
@@ -169,12 +191,19 @@ export default async function SesionPage({
             {esCreador && declinaron.length > 0 && (
               <Invitaciones invitaciones={declinaron} />
             )}
+            {!cerrada && !propuestaCierre && (
+              <Cierre sessionId={id} vista="proponer" />
+            )}
           </div>
         </details>
       </header>
 
       {/* Hilo de mensajes */}
       <div className="mt-6 flex flex-1 flex-col gap-3">
+        {propuestaCierre && (
+          <Cierre sessionId={id} vista="banner" proponente={proponente} />
+        )}
+
         {mensajes.length === 0 ? (
           <p className="mt-10 text-center text-sm text-muted">
             Todavía no hay mensajes. Escribí el primero.
@@ -201,7 +230,16 @@ export default async function SesionPage({
         )}
       </div>
 
-      <Escribir sessionId={id} />
+      {cerrada ? (
+        <div className="mt-4 rounded-xl border border-line bg-surface p-4 text-center">
+          <p className="text-sm font-semibold text-ink">Conversación cerrada</p>
+          <p className="mt-1 text-[13px] text-muted">
+            Queda para leer. El resumen llega cuando conectemos la IA.
+          </p>
+        </div>
+      ) : (
+        <Escribir sessionId={id} />
+      )}
     </main>
   );
 }
